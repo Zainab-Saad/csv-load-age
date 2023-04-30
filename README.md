@@ -9,7 +9,7 @@ git clone https://github.com/Zainab-Saad/csv-load-age.git
 
 - **Checkout out to the cloned directory**
 ```
-cd csv-load-age
+cd csv-load-age/python
 ```
 
 - **Install prerequisites**

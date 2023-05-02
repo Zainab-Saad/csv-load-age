@@ -1,5 +1,8 @@
+"""
+Author: Zainab Saad
+GitHub: Zainab-Saad
+"""
 import age, load_csv_to_age as ld
-
 
 GRAPH_NAME = "csv_load_age"
 DSN = "host=127.0.0.1 port=5432 dbname=postgres user=postgres password=12345"

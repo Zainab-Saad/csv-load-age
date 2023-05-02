@@ -1,3 +1,8 @@
+"""
+Author: Zainab Saad
+GitHub: Zainab-Saad
+"""
+
 import age, csv, copy
 
 # TODO -- refactor code so that file is not open again and again inside the loop 

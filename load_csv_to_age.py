@@ -1,3 +1,7 @@
+"""
+Author: Zainab Saad
+GitHub: Zainab-Saad
+"""
 import age, csv
 from typing import Tuple
 

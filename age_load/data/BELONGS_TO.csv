@@ -1,0 +1,16 @@
+id,name,start_vertex_type,id,name,capital,end_vertex_type
+103,Karachi,City,1,Pakistan,Islamabad,Country
+102,Lahore,City,1,Pakistan,Islamabad,Country
+112,Manchester,City,2,United Knigdom,London,Country
+109,Ankara,City,3,Turkey,Ankara,Country
+108,Istanbul,City,3,Turkey,Ankara,Country
+114,New York,City,4,United States of America, Washington,Country
+113,Seattle,City,4,United States of America, Washington,Country
+105,Berlin,City,5,Germany,Berlin,Country
+104,Munich,City,5,Germany,Berlin,Country
+107,Melbourne,City,7,Australia,Canberra,Country
+106,Sydney,City,7,Australia,Canberra,Country
+100,Toronto,City,8,Canada,Ottawa,Country
+101,Mumbai,City,9,India,New Delhi,Country
+111,Beijing,City,10,China,Beijing,Country
+110,Shenzhen,City,10,China,Beijing,Country

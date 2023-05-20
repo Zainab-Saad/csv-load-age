@@ -12,47 +12,35 @@ def load_labels_into_file(ag: age.age.Age,  graph_name: str) -> None:
     Age class object
     graph name
     """
-
-    cursor = ag.execCypher('MATCH (u) RETURN u')
-    # create a seperate csv file for each label and write the properties header, records there
-    cursor_fetch = cursor.fetchall()
-    label , file_path = '', ''
-    for i,row in enumerate(cursor_fetch):
-        file_path = './age_load/data/' + label + '.csv'
-        row_label = list(cursor_fetch)[i][0].label
-        if(row_label != label):
-            label = row_label
-            file_path = './age_load/data/' + label + '.csv'
-            with open(file_path, mode='a', newline='') as file:
+    cursor = ag.execCypher('MATCH (u) RETURN DISTINCT labels(u)[0]')
+    
+    for row in cursor:
+        file_path = './age_load/data/' + row[0] + '.csv'
+        cursor_vertices = ag.execCypher('MATCH (u:' + row[0] + ') RETURN u')
+        cursor_fetch = cursor_vertices.fetchall()
+        with open(file_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(list((cursor_fetch[0][0].properties).keys()))
+            for each_vertex in cursor_fetch:
                 writer = csv.writer(file)
-                writer.writerow(list((row[0].properties).keys()))
-                writer.writerow(list((row[0].properties).values()))
-        else:
-            with open(file_path, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(list((row[0].properties).values()))
+                writer.writerow(list((each_vertex[0].properties).values()))
+        file.close()
 
     
 def load_edges_into_file(ag: age.age.Age, graph_name: str) -> None:
-    cursor = ag.execCypher('MATCH p = ()-[]->() RETURN p')
-    # create a seperate csv file for each label and write the properties header, records there
-    cursor_fetch = cursor.fetchall()
-    label , file_path = '', ''
-    for i,row in enumerate(cursor_fetch):
-        file_path = './age_load/data/' + label + '.csv'
-        row_label = row[0][1].label
-        header = list(row[0][0].properties.keys()) + ['start_vertex_type'] + list(row[0][2].properties.keys()) + ['end_vertex_type']
-        record =  list(row[0][0].properties.values()) + [row[0][0].label, ] + list(row[0][2].properties.values()) + [row[0][2].label, ] 
-        print(header)
-        print(record)
-        if(row_label != label):
-            label = row_label
-            file_path = './age_load/data/' + label + '.csv'
-            with open(file_path, mode='a', newline='') as file:
+    
+    cursor = ag.execCypher('MATCH (u)-[e]->(v) RETURN DISTINCT type(e)')
+
+    for row in cursor:
+        file_path = './age_load/data/' + row[0] + '.csv'
+        cursor_edges = ag.execCypher('MATCH p = (u)-[e:' + row[0] + ']->(v) RETURN p')
+        cursor_fetch = cursor_edges.fetchall()
+        with open(file_path, mode='w', newline='') as file:
+            writer = csv.writer(file)
+            header = list(cursor_fetch[0][0][0].properties.keys()) + ['start_vertex_type'] + list(cursor_fetch[0][0][2].properties.keys()) + ['end_vertex_type'] + list(cursor_fetch[0][0][1].properties.keys())
+            writer.writerow(header)
+            for each_edge in cursor_fetch:
                 writer = csv.writer(file)
-                writer.writerow(header)
+                record =  list(each_edge[0][0].properties.values()) + [each_edge[0][0].label, ] + list(each_edge[0][2].properties.values()) + [each_edge[0][2].label, ] + list(each_edge[0][1].properties.values())
                 writer.writerow(record)
-        else:
-            with open(file_path, mode='a', newline='') as file:
-                writer = csv.writer(file)
-                writer.writerow(record)
+        file.close()
